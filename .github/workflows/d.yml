@@ -7,8 +7,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, windows-2019]
-        dc: [dmd-2.095.1, ldc-1.25.1]
+        os: [windows-2019]
+        dc: [dmd-2.095.1]
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -20,23 +20,6 @@ jobs:
         with:
           compiler: ${{ matrix.dc }}
 
-      # Work around hardcoded `dmd` compiler in integration tests
-      - name: "LDC: Symlink dmd to ldmd2"
-        if: matrix.dc == 'ldc-beta'
-        shell: bash
-        run: |
-          set -ex
-          ldcBinDir=$(dirname $(which ldmd2))
-          if [[ '${{ runner.os }}' == 'Windows' ]]; then
-            cp $ldcBinDir/ldmd2.exe $ldcBinDir/dmd.exe
-          else
-            ln -s $ldcBinDir/ldmd2 $ldcBinDir/dmd
-          fi
-
-      - name: "Posix: Run tests"
-        if: runner.os != 'Windows'
-        run: dub -q test -- ~@tup ~@travis_oops
-
       - name: "Windows: Run tests"
         if: runner.os == 'Windows'
         shell: cmd
@@ -47,21 +30,15 @@ jobs:
           if "%DC%" == "dmd" set MSVC_ARCH=x86
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=%MSVC_ARCH% || exit /b
           :: test
-          dub -q test -- ~@tup ~@make ~@posix ~@javascript ~@lua ~@python ~@ruby
-          if %ERRORLEVEL% NEQ 0 (
-            echo.
-            echo *** Retrying tests serially ***
-            echo.
-            dub -q test -- -s ~@tup ~@make ~@posix ~@javascript ~@lua ~@python ~@ruby || exit /b
-          )
+          dub -q test -- ~@tup
 
   bootstrap:
     name: Bootstrap
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macos-10.15, windows-2019]
-        dc: [dmd-2.095.1, ldc-1.25.1]
+        os: [windows-2019]
+        dc: [dmd-2.095.1]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -85,7 +62,3 @@ jobs:
 
       - name: Bootstrap with DC=${{ env.DC }}
         run: ${{ env.SCRIPT_CMD }}
-
-      - name: "LDC: Bootstrap with DC=ldmd2"
-        if: matrix.dc == 'ldc-beta'
-        run: DC=ldmd2 ${{ env.SCRIPT_CMD }}
