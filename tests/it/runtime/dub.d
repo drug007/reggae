@@ -883,6 +883,10 @@ unittest {
         });
 
         runReggae("-b", "ninja");
+        debug{{
+            import std;
+            writeln(readText(buildPath(sandboxPath, "build.ninja")));
+        }}
         ninja(["default", "ut"]).shouldExecuteOk;
         shouldSucceed("ut");
     }
