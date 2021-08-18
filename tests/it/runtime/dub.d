@@ -868,7 +868,7 @@ unittest {
                 sourceFiles "source/demo.d"
             }
         `);
-        writeFile("library.d", q{
+        writeFile("source/library.d", q{
             module library;
         });
         writeFile("source/demo.d", q{
