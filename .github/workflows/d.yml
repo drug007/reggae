@@ -31,6 +31,12 @@ jobs:
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=%MSVC_ARCH% || exit /b
           :: test
           dub -q test -- ~@tup
+          if %ERRORLEVEL% NEQ 0 (
+            echo.
+            echo *** Retrying tests serially ***
+            echo.
+            dub -q test -- -s ~@tup || exit /b
+          )
 
   bootstrap:
     name: Bootstrap
