@@ -885,7 +885,9 @@ unittest {
         runReggae("-b", "ninja");
         debug{{
             import std;
-            writeln(readText(buildPath(sandboxPath, "build.ninja")));
+            // writeln(readText(buildPath(sandboxPath, "build.ninja")));
+            writeln(readText(buildPath(sandboxPath, "reggaefile.d")));
+            // dirEntries(sandboxPath, SpanMode.shallow).each!writeln;
         }}
         ninja(["default", "ut"]).shouldExecuteOk;
         shouldSucceed("ut");

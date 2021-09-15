@@ -164,15 +164,15 @@ struct Ninja {
                 ? phonyRule(target)
                 : customRule(target);
         }
-        () @trusted
-        {
-            foreach(target; _build.range)
-            {
-                import std;
-                writeln(target);
-            }
-            assert(0);
-        }();
+        // () @trusted
+        // {
+        //     foreach(target; _build.range)
+        //     {
+        //         import std;
+        //         writeln(target);
+        //     }
+        //     assert(0);
+        // }();
     }
 
     //includes rerunning reggae
