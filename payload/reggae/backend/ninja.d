@@ -164,6 +164,15 @@ struct Ninja {
                 ? phonyRule(target)
                 : customRule(target);
         }
+        () @trusted
+        {
+            foreach(target; _build.range)
+            {
+                import std;
+                writeln(target);
+            }
+            assert(0);
+        }();
     }
 
     //includes rerunning reggae
@@ -246,27 +255,27 @@ private:
         const ruleName = cmdTypeToNinjaRuleName(target.getCommandType, target.getLanguage);
         const buildLine = buildLine(target, ruleName, /*includeImplicitInputs=*/false);
 
-() @trusted
-{
-    import std;
-    // // // writeln(target);
-    // // // writeln(ruleName);
-    // // if (target.rawOutputs[0][$-6..$] == "demo.o" /*&& 
-    // //     (target.rawOutputs[0][0..60] == r".reggae/objs/./dub_default_config_is_source_library.objs/hom" ||
-    // //      target.rawOutputs[0][0..60] == r".reggae\objs\.\ut.exe.objs\a\reggae\reggae\tmp\unit-threaded"
-    // //     )*/)
-    // {
-        writeln("===");
-        // writeln(target.rawOutputs[0][0..60]);
-        writeln(buildLine);
-        writeln(targetDependencies(target));
-        writeln("===");
-        writeln;
-    // }
-    static int count = 4;
-    if (target.commandParamNames.length && --count < 1)
-        assert(0);
-}();
+// () @trusted
+// {
+//     import std;
+//     // // // writeln(target);
+//     // // // writeln(ruleName);
+//     // // if (target.rawOutputs[0][$-6..$] == "demo.o" /*&& 
+//     // //     (target.rawOutputs[0][0..60] == r".reggae/objs/./dub_default_config_is_source_library.objs/hom" ||
+//     // //      target.rawOutputs[0][0..60] == r".reggae\objs\.\ut.exe.objs\a\reggae\reggae\tmp\unit-threaded"
+//     // //     )*/)
+//     // {
+//         writeln("===");
+//         // writeln(target.rawOutputs[0][0..60]);
+//         writeln(buildLine);
+//         writeln(targetDependencies(target));
+//         writeln("===");
+//         writeln;
+//     // }
+//     static int count = 4;
+//     if (target.commandParamNames.length && --count < 1)
+//         assert(0);
+// }();
 
         buildEntries ~= NinjaEntry(buildLine, paramLines);
     }
