@@ -240,7 +240,7 @@ private:
             const flat = flattenShellArgs(values);
             if(!flat.length) continue;
             // the flat value still needs to be escaped for Ninja ($ => $$, e.g. for env vars)
-            paramLines ~= param ~ " = " ~ flat.replace("$", "$$");
+            paramLines ~= param ~ " = " ~ flat.replace("$", "$$") ~ " check";
         }
 
         const ruleName = cmdTypeToNinjaRuleName(target.getCommandType, target.getLanguage);
