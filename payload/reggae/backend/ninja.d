@@ -251,12 +251,13 @@ private:
     import std;
     // writeln(target);
     // writeln(ruleName);
-    if (target.rawOutputs[0][$-6..$] == "demo.o" && 
-        (target.rawOutputs[0][0..56] == ".reggae/objs/./dub_default_config_is_source_library.objs" ||
+    if (target.rawOutputs[0][$-6..$] == "demo.o" /*&& 
+        (target.rawOutputs[0][0..60] == r".reggae/objs/./dub_default_config_is_source_library.objs/hom" ||
          target.rawOutputs[0][0..60] == r".reggae\objs\.\ut.exe.objs\a\reggae\reggae\tmp\unit-threaded"
-        ))
+        )*/)
     {
         writeln("===");
+        writeln(target.rawOutputs[0][0..60]);
         writeln(buildLine);
         writeln(targetDependencies(target));
         writeln("===");
