@@ -73,6 +73,12 @@ Build getBuildObject(alias module_)(in Options options) {
             file.rawWrite(build.toBytes(options));
         }
 
+        () @trusted
+        {
+            import std;
+            writeln(build);
+            assert(0);
+        }();
         return build;
     } else {
         auto file = File(cacheFileName);
