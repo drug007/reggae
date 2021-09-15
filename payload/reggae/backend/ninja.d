@@ -233,10 +233,6 @@ private:
         }
 
         string[] paramLines;
-{
-    import std;
-    target.commandParamNames.each!writeln();
-}
         foreach(immutable param; target.commandParamNames) {
             // skip the DEPFILE parameter, it's already specified in the rule
             if (param == "DEPFILE") continue;
@@ -249,6 +245,17 @@ private:
 
         const ruleName = cmdTypeToNinjaRuleName(target.getCommandType, target.getLanguage);
         const buildLine = buildLine(target, ruleName, /*includeImplicitInputs=*/false);
+
+() @trusted
+{
+    import std;
+    writeln(target);
+    writeln(ruleName);
+    writeln;
+    static int count = 4;
+    if (target.commandParamNames.length && --count < 1)
+        assert(0);
+}();
 
         buildEntries ~= NinjaEntry(buildLine, paramLines);
     }
