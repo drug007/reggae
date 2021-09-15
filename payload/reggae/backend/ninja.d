@@ -233,6 +233,10 @@ private:
         }
 
         string[] paramLines;
+{
+    import std;
+    target.commandParamNames.each!writeln();
+}
         foreach(immutable param; target.commandParamNames) {
             // skip the DEPFILE parameter, it's already specified in the rule
             if (param == "DEPFILE") continue;
@@ -240,7 +244,7 @@ private:
             const flat = flattenShellArgs(values);
             if(!flat.length) continue;
             // the flat value still needs to be escaped for Ninja ($ => $$, e.g. for env vars)
-            paramLines ~= param ~ " = " ~ flat.replace("$", "$$") ~ " check";
+            paramLines ~= param ~ " = " ~ flat.replace("$", "$$");
         }
 
         const ruleName = cmdTypeToNinjaRuleName(target.getCommandType, target.getLanguage);
