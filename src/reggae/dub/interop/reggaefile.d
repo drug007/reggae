@@ -62,7 +62,7 @@ private enum standardDubReggaefile = q{
     version (Windows) {
         // Windows: extra `ut` convenience alias for `ut.exe`
         alias utTarget = aliasTarget!("ut", testTarget);
-        mixin build!(buildTarget, optional!testTarget, optional!defaultTarget, optional!utTarget);
+        mixin build!(buildTarget, optional!testTarget, optional!defaultTarget/*, optional!utTarget*/);
     } else {
         mixin build!(buildTarget, optional!testTarget, optional!defaultTarget);
     }
