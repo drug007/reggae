@@ -249,8 +249,9 @@ private:
 () @trusted
 {
     import std;
-    writeln(target);
-    writeln(ruleName);
+    // writeln(target);
+    // writeln(ruleName);
+    writeln(buildLine);
     writeln;
     static int count = 4;
     if (target.commandParamNames.length && --count < 1)
