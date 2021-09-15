@@ -174,6 +174,12 @@ unittest {
 
 mixin template buildImpl(targets...) if(allSatisfy!(isTarget, targets)) {
     Build buildFunc() {
+
+() @trusted {
+    import std;
+    writeln(targets);
+    assert(0);
+}();
         return Build(targets);
     }
 }
