@@ -15,3 +15,6 @@ Refactoring:
   range.d
   Use ranges instead of arrays where possible
   Review all uses of @trusted
+
+
+dub.d:173 allObjs формирует разные зависимости под линукс и винду (под винду некоторые зависимости дублируются)
